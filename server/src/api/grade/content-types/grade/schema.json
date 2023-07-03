@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "grades",
+  "info": {
+    "singularName": "grade",
+    "pluralName": "grades",
+    "displayName": "Grade",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "grade": {
+      "type": "enumeration",
+      "enum": [
+        "All",
+        "KG",
+        "Grade-1",
+        "Grade-2",
+        "Grade-3",
+        "Grade-4",
+        "Grade-5",
+        "Grade-6",
+        "Grade-7",
+        "Grade-8",
+        "Grade-9",
+        "Grade-10",
+        "Grade-11"
+      ]
+    },
+    "users": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "grades"
+    }
+  }
+}
