@@ -1,0 +1,17 @@
+<mat-form-field class="search">
+  <input
+    matInput
+    [placeholder]="placeholder"
+    type="text"
+    [(ngModel)]="searchValue"
+    (input)="onSearchValueChange()"
+  />
+  <mat-icon
+    *ngIf="searchValue"
+    class="clear-search"
+    matSuffix
+    (click)="clearSearch()"
+    aria-label="Clear"
+    >close</mat-icon
+  >
+</mat-form-field>

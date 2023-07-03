@@ -1,0 +1,47 @@
+.card {
+  padding: 20px;
+  width: 240px;
+  cursor: pointer;
+  @media screen and (max-width: 780px) {
+    padding: 18px 12px;
+    width: 230px;
+  }
+  @media screen and (max-width: 480px) {
+    padding: 16px 10px;
+    width: 220px;
+  }
+  &:hover {
+    background-color: var(--primary-color);
+    transition: var(--transition);
+    color: var(--font-light);
+    cursor: pointer;
+    img {
+      transition: var(--transition);
+      filter: brightness(0) saturate(100%) invert(100%);
+    }
+  }
+  img {
+    width: 40px;
+    height: 40px;
+    transition: var(--transition);
+    @media screen and (max-width: 780px) {
+      width: 34px;
+      height: 34px;
+    }
+    @media screen and (max-width: 460px) {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  h3 {
+    font-size: var(--medium-size);
+    font-weight: 500;
+    @media screen and (max-width: 780px) {
+      font-size: var(--small-x-size);
+    }
+    @media screen and (max-width: 460px) {
+      font-size: var(--small-size);
+    }
+  }
+}

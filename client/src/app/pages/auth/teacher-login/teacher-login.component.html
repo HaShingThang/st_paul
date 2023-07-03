@@ -1,0 +1,9 @@
+<div class="wrapper">
+  <app-login
+    [isStudent]="false"
+    [isAdmin]="false"
+    [isTeacher]="true"
+    [isLoading]="isLoading"
+    (submitEvent)="teacherLogin($event)"
+  />
+</div>

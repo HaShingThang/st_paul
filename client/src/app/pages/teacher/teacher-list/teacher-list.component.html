@@ -1,0 +1,128 @@
+<div class="wrapper">
+  <app-dashboard-nav routerLink="/teacher-list" routerType="Teacher List" />
+  <div class="container">
+    <div class="table-header">
+      <div class="search-gp">
+        <app-search-input
+          placeholder="Search by name"
+          [searchValue]="searchValue"
+          (searchCleared)="clearSearch()"
+          (searchValueChanged)="searchValue = $event"
+        ></app-search-input>
+        <button
+          class="search-btn"
+          (click)="searchTeacher()"
+          mat-raised-button
+          color="primary"
+        >
+          Search
+        </button>
+      </div>
+      <div class="tb-h-right-gp">
+        <button
+          mat-raised-button
+          class="btn"
+          (click)="exportExcel()"
+          [disabled]="!teacherData.data.length"
+        >
+          <mat-icon>get_app</mat-icon><span>Download</span>
+        </button>
+        <button
+          class="btn"
+          mat-raised-button
+          routerLink="/teacher-add"
+          *ngIf="authService.isSuperAdmin() || authService.isAdmin()"
+        >
+          <mat-icon>add_circle_outline</mat-icon><span>New Teacher</span>
+        </button>
+      </div>
+    </div>
+    <div class="table-wrapper">
+      <table mat-table [dataSource]="teacherData" class="table" matSort>
+        <!-- No Column -->
+        <ng-container matColumnDef="No">
+          <th mat-header-cell *matHeaderCellDef>No</th>
+          <td mat-cell *matCellDef="let teacher">{{ teacher.no }}</td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="Name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+          <td mat-cell *matCellDef="let teacher">{{ teacher.username }}</td>
+        </ng-container>
+
+        <!-- Email Column -->
+        <ng-container matColumnDef="Email">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+          <td mat-cell *matCellDef="let teacher">{{ teacher.email }}</td>
+        </ng-container>
+
+        <!-- Teaching Column -->
+        <ng-container matColumnDef="Teaching">
+          <th mat-header-cell *matHeaderCellDef>Teaching</th>
+          <td mat-cell *matCellDef="let teacher">
+            {{ getGrades(teacher.grades) ? getGrades(teacher.grades) : "---" }}
+          </td>
+        </ng-container>
+
+        <!-- Address Column -->
+        <ng-container matColumnDef="Address">
+          <th mat-header-cell *matHeaderCellDef>Address</th>
+          <td mat-cell *matCellDef="let teacher">
+            {{ teacher.address ? teacher.address : "---" }}
+          </td>
+        </ng-container>
+
+        <!-- PhNo Column -->
+        <ng-container matColumnDef="PhNo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Ph No</th>
+          <td mat-cell *matCellDef="let teacher">
+            {{ teacher.phNo ? teacher.phNo : "---" }}
+          </td>
+        </ng-container>
+
+        <!-- Action Column -->
+        <ng-container matColumnDef="Action">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td class="action" mat-cell *matCellDef="let teacher">
+            <button
+              class="btn btn-edit"
+              [routerLink]="'/teacher-edit/' + teacher.id"
+              [disabled]="!authService.isAdmin()"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              (click)="deleteTeacher(teacher)"
+              class="btn btn-delete"
+              [disabled]="!authService.isAdmin()"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; index as i; columns: displayedColumns"
+          [class.odd-row]="i % 2 === 0"
+        ></tr>
+      </table>
+    </div>
+    <p class="no-data" *ngIf="noData">{{ noData }}</p>
+    <mat-paginator
+      class="pagination"
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+      aria-label="Select page of periodic teachers"
+    >
+    </mat-paginator>
+  </div>
+
+  <app-footer id="footer" />
+</div>
+<app-loading-screen
+  [searching]="searching"
+  *ngIf="isLoading"
+></app-loading-screen>

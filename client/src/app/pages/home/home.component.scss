@@ -1,0 +1,13 @@
+.card-wrapper {
+  width: 100%;
+  padding-top: 140px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  @media screen and (max-width: 860px) {
+    padding-top: 120px;
+    flex-direction: column;
+  }
+}

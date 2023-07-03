@@ -1,0 +1,17 @@
+.footer{
+  background-color: var(--primary-color);
+  max-width: 1920px;
+  width: 100%;
+  padding: 2px 0;
+  text-align: center;
+  a{
+    color: var(--font-light);
+    font-size: var(--mini-size);
+    cursor: pointer;
+    transition: var(--transition);
+    &:hover{
+      font-weight: 500;
+      transition: var(--transition);
+    }
+  }
+}

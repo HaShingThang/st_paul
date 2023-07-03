@@ -1,0 +1,299 @@
+<div class="wrapper">
+  <app-dashboard-nav
+    *ngIf="!isUpdateMode"
+    routerLink="/admin-add"
+    routerType="Add New Admin"
+  />
+  <app-dashboard-nav
+    *ngIf="isUpdateMode"
+    routerLink="/admin-edit/{{ adminId }}"
+    [routerType]="editAccount"
+  />
+
+  <div class="container">
+    <form
+      [formGroup]="createUpdateAdminForm"
+      (ngSubmit)="adminSubmit()"
+      novalidate
+    >
+      <div formGroupName="admin">
+        <!-- Username -->
+        <mat-form-field class="input">
+          <mat-label>Admin Name</mat-label>
+          <input
+            minlength="2"
+            maxlength="47"
+            type="text"
+            matInput
+            formControlName="username"
+          />
+          <mat-error
+            class="error"
+            *ngIf="
+              adminForm.get('username')?.invalid &&
+              (adminForm.get('username')?.dirty ||
+                adminForm.get('username')?.touched)
+            "
+          >
+            <span *ngIf="adminForm.get('username')?.errors?.['required']"
+              >Admin name is required.</span
+            >
+            <span *ngIf="adminForm.get('username')?.errors?.['minlength']"
+              >Admin name must be more than 2 chars.</span
+            >
+            <span *ngIf="adminForm.get('username')?.errors?.['maxlength']"
+              >Admin name must be less than 46 chars.</span
+            >
+          </mat-error>
+        </mat-form-field>
+        <!-- Email -->
+        <mat-form-field class="input">
+          <mat-label>Email</mat-label>
+          <input
+            type="email"
+            matInput
+            maxlength="49"
+            formControlName="email"
+            placeholder="Ex. name@example.com"
+          />
+          <mat-error
+            class="error"
+            *ngIf="
+              adminForm.get('email')?.invalid &&
+              (adminForm.get('email')?.dirty || adminForm.get('email')?.touched)
+            "
+          >
+            <span *ngIf="adminForm.get('email')?.errors?.['required']"
+              >Email is required.</span
+            >
+            <span *ngIf="adminForm.get('email')?.errors?.['maxlength']"
+              >Email must be less than 46 chars.</span
+            >
+            <span *ngIf="adminForm.get('email')?.errors?.['email']">
+              Invalid email format.
+            </span>
+            <span *ngIf="adminForm.get('email')?.errors?.['pattern']">
+              Invalid email format.
+            </span>
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Password -->
+        <mat-form-field class="input" *ngIf="!isUpdateMode">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            placeholder="Password"
+            formControlName="password"
+            [type]="hide ? 'password' : 'text'"
+            required
+            minlength="6"
+          />
+          <mat-icon matSuffix (click)="hide = !hide">
+            {{ hide ? "visibility_off" : "visibility" }}
+          </mat-icon>
+          <mat-error
+            class="error"
+            *ngIf="
+              adminForm.get('password')?.invalid &&
+              (adminForm.get('password')?.dirty ||
+                adminForm.get('password')?.touched)
+            "
+          >
+            <span *ngIf="adminForm.get('password')?.errors?.['required']"
+              >Password is required.</span
+            >
+            <span *ngIf="adminForm.get('password')?.errors?.['minlength']"
+              >Password must be at least 6 characters long.</span
+            >
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Confirm Password -->
+        <mat-form-field class="input" *ngIf="!isUpdateMode">
+          <mat-label>Confirm Password</mat-label>
+          <input
+            matInput
+            formControlName="confirmPassword"
+            [type]="confirmPassHide ? 'password' : 'text'"
+            required
+          />
+          <mat-icon matSuffix (click)="confirmPassHide = !confirmPassHide">
+            {{ confirmPassHide ? "visibility_off" : "visibility" }}
+          </mat-icon>
+          <mat-error
+            class="error"
+            *ngIf="
+              adminForm.get('confirmPassword')?.hasError('passwordMismatch')
+            "
+          >
+            Passwords do not match.
+          </mat-error>
+        </mat-form-field>
+
+        <!-- phNo Number -->
+        <mat-form-field class="input">
+          <mat-label>Phone Number</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="phNo"
+            placeholder="09*********"
+          />
+          <mat-error
+            class="error"
+            *ngIf="
+              adminForm.get('phNo')?.invalid &&
+              (adminForm.get('phNo')?.dirty || adminForm.get('phNo')?.touched)
+            "
+          >
+            <span *ngIf="adminForm.get('phNo')?.errors?.['invalidNumber']">
+              phNo number should contain only digits.
+            </span>
+            <span *ngIf="adminForm.get('phNo')?.errors?.['invalidStart']">
+              phNo number should start with '09'.
+            </span>
+            <span *ngIf="adminForm.get('phNo')?.errors?.['minlength']">
+              phNo number should be at least 8 digits long.
+            </span>
+            <span *ngIf="adminForm.get('phNo')?.errors?.['maxlength']">
+              phNo number should be at most 11 digits long.
+            </span>
+          </mat-error>
+        </mat-form-field>
+        <!-- Role Type -->
+        <mat-form-field class="input">
+          <mat-label>Role Type</mat-label>
+          <input type="text" matInput formControlName="role" readonly />
+          <mat-error
+            class="error"
+            *ngIf="
+              adminForm.get('role')?.invalid &&
+              (adminForm.get('role')?.dirty || adminForm.get('role')?.touched)
+            "
+          >
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <!-- Employee Edit Change Password Option -->
+      <div *ngIf="isUpdateMode" class="input">
+        <div class="input isChangePass">
+          <mat-checkbox
+            (change)="changePasswordToggle()"
+            class="check-box"
+            color="primary"
+            >Change Password?</mat-checkbox
+          >
+        </div>
+        <div formGroupName="changePassword" *ngIf="isChangePassword">
+          <!-- Current Password -->
+          <mat-form-field class="input">
+            <mat-label>Current Password</mat-label>
+            <input
+              matInput
+              placeholder="Current Password"
+              formControlName="currentPassword"
+              [type]="hide ? 'password' : 'text'"
+              required
+            />
+            <mat-icon matSuffix (click)="hide = !hide">
+              {{ hide ? "visibility_off" : "visibility" }}
+            </mat-icon>
+            <mat-error
+              class="error"
+              *ngIf="
+                changePasswordForm.get('currentPassword')?.invalid &&
+                (changePasswordForm.get('currentPassword')?.dirty ||
+                  changePasswordForm.get('currentPassword')?.touched)
+              "
+            >
+              <span
+                *ngIf="changePasswordForm.get('currentPassword')?.errors?.['required']"
+                >Current Password is required.</span
+              >
+            </mat-error>
+          </mat-form-field>
+
+          <!-- New Password -->
+          <mat-form-field class="input">
+            <mat-label>New Password</mat-label>
+            <input
+              matInput
+              placeholder="New Password"
+              formControlName="password"
+              [type]="newPassHide ? 'password' : 'text'"
+              required
+              minlength="6"
+            />
+            <mat-icon matSuffix (click)="newPassHide = !newPassHide">
+              {{ newPassHide ? "visibility_off" : "visibility" }}
+            </mat-icon>
+            <mat-error
+              class="error"
+              *ngIf="
+                changePasswordForm.get('password')?.invalid &&
+                (changePasswordForm.get('password')?.dirty ||
+                  changePasswordForm.get('password')?.touched)
+              "
+            >
+              <span
+                *ngIf="changePasswordForm.get('password')?.errors?.['required']"
+                >Password is required.</span
+              >
+              <span
+                *ngIf="changePasswordForm.get('password')?.errors?.['minlength']"
+                >Password must be at least 6 characters long.</span
+              >
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Confirm Password -->
+          <mat-form-field class="input">
+            <mat-label>Confirm Password</mat-label>
+            <input
+              matInput
+              formControlName="confirmPassword"
+              required
+              [type]="confirmPassHide ? 'password' : 'text'"
+            />
+            <mat-icon matSuffix (click)="confirmPassHide = !confirmPassHide">
+              {{ confirmPassHide ? "visibility_off" : "visibility" }}
+            </mat-icon>
+            <mat-error
+              *ngIf="
+                changePasswordForm
+                  .get('confirmPassword')
+                  ?.hasError('passwordMismatch')
+              "
+            >
+              Passwords do not match.
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="confirm-btn" *ngIf="showSubmit">
+        <p class="btn swal-cancel" (click)="formEnable()">Cancel</p>
+        <button type="submit" class="btn swal-confirm">Confirm</button>
+      </div>
+      <!-- Submit Button -->
+    </form>
+    <button
+      *ngIf="!showSubmit"
+      mat-raised-button
+      type="submit"
+      class="btn"
+      (click)="formDisable()"
+      [disabled]="
+        isChangePassword ? !createUpdateAdminForm.valid : !adminForm.valid
+      "
+    >
+      <span *ngIf="!isUpdateMode">Add</span>
+      <span *ngIf="isUpdateMode">Update</span>
+    </button>
+    <app-back routerLink="/admin-list" />
+  </div>
+
+  <app-footer id="footer" />
+</div>
+<app-loading-screen *ngIf="adminService.isLoading || isLoading" />

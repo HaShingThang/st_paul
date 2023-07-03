@@ -1,0 +1,47 @@
+.wrapper {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  .container {
+    width: 100%;
+    text-align: center;
+    form {
+      width: 100%;
+      margin: 0 auto;
+      text-align: center;
+      .input {
+        width: 100%;
+        margin-bottom: 10px;
+        .error {
+          font-size: var(--mini-x-size);
+        }
+      }
+      .confirm-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        p {
+          text-align: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .btn {
+          width: 84px;
+          height: 36px;
+        }
+      }
+      .isChangePass{
+        text-align: left;
+      }
+    }
+    .btn {
+      width: 120px;
+    }
+    .back{
+      float: left;
+    }
+  }
+}

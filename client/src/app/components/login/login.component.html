@@ -1,0 +1,103 @@
+<div class="form-wrapper">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+    <h2 *ngIf="isStudent">Student Login</h2>
+    <h2 *ngIf="isAdmin">Admin Login</h2>
+    <h2 *ngIf="isTeacher">Teacher Login</h2>
+    <ng-container *ngIf="isStudent">
+      <mat-form-field class="input">
+        <input
+          matInput
+          placeholder="Student Name"
+          formControlName="studentName"
+        />
+        <mat-error
+          class="error"
+          *ngIf="
+            loginForm.get('studentName')?.invalid &&
+            (loginForm.get('studentName')?.dirty ||
+              loginForm.get('studentName')?.touched)
+          "
+        >
+          Student Name is required.
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="input">
+        <input
+          [type]="hide ? 'password' : 'text'"
+          matInput
+          placeholder="Student ID"
+          formControlName="studentId"
+        />
+        <mat-icon matSuffix (click)="hide = !hide">
+          {{ hide ? "visibility_off" : "visibility" }}
+        </mat-icon>
+        <mat-error
+          class="error"
+          *ngIf="
+            loginForm.get('studentId')?.invalid &&
+            (loginForm.get('studentId')?.dirty ||
+              loginForm.get('studentId')?.touched)
+          "
+        >
+          Student ID is required.
+        </mat-error>
+      </mat-form-field>
+    </ng-container>
+    <ng-container *ngIf="isAdmin || isTeacher">
+      <mat-form-field class="input">
+        <input matInput placeholder="Email" formControlName="email" />
+        <mat-error
+          class="error"
+          *ngIf="
+            loginForm.get('email')?.errors?.['required'] &&
+            (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)
+          "
+        >
+          Email is required.
+        </mat-error>
+        <mat-error
+          class="error"
+          *ngIf="
+            loginForm.get('email')?.errors?.['pattern'] &&
+            loginForm.get('email')?.dirty
+          "
+        >
+          Invalid email format.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="input">
+        <input
+          matInput
+          [type]="hide ? 'password' : 'text'"
+          placeholder="Password"
+          formControlName="password"
+        />
+        <mat-icon matSuffix (click)="hide = !hide">
+          {{ hide ? "visibility_off" : "visibility" }}
+        </mat-icon>
+        <mat-error
+          class="error"
+          *ngIf="
+            loginForm.get('password')?.invalid &&
+            (loginForm.get('password')?.dirty ||
+              loginForm.get('password')?.touched)
+          "
+        >
+          Password is required.
+        </mat-error>
+      </mat-form-field>
+    </ng-container>
+    <button
+      mat-raised-button
+      class="btn"
+      type="submit"
+      [disabled]="!loginForm.valid"
+    >
+      Login
+    </button>
+    <app-back routerLink="/" class="back" />
+  </form>
+</div>
+
+<app-loading-screen *ngIf="isLoading"></app-loading-screen>

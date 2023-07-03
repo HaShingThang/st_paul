@@ -1,0 +1,15 @@
+.card {
+  padding: 28px 0px;
+  img {
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+  }
+  .btn {
+    background-color: var(--primary-color);
+    color: var(--font-light);
+    @media (max-width: 480px) {
+       font-size: var(--small-size);
+    }
+  }
+}

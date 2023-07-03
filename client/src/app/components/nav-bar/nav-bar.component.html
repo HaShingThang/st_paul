@@ -1,0 +1,12 @@
+<header>
+  <nav>
+    <h1 routerLink="/"><a>St.Paul's Education Service</a></h1>
+    <div
+      class="logout"
+      *ngIf="authService.isAuth()"
+      (click)="authService.logout()"
+    >
+      <img src="../../../assets/images/logout.svg" alt="Logout" />
+    </div>
+  </nav>
+</header>

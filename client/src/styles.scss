@@ -1,0 +1,312 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use "@angular/material" as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+
+// Define your custom primary color palette
+$client-primary: mat.define-palette(
+  mat.$teal-palette,
+  600,
+  // Default hue
+  400,
+  // Lighter hue
+  800 // Darker hue
+);
+
+// Define your custom accent color palette
+$client-accent: mat.define-palette(
+  mat.$pink-palette,
+  500,
+  // Default hue
+  300,
+  // Lighter hue
+  700 // Darker hue
+);
+
+// The warn palette is optional (defaults to red).
+$client-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$client-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $client-primary,
+      accent: $client-accent,
+      warn: $client-warn,
+    ),
+  )
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($client-theme);
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+}
+
+:root {
+  --primary-color: #08977b;
+  --font-light: #f8f9fa;
+  --white-color: #fff;
+  --font-dark: #2a2e36;
+  --btn-color: #09d3ac;
+  --border-radius: 6px;
+  --disable-color: #eceaea;
+  --border-color: #a09c9c;
+  --transition: 0.6s ease;
+  --success-color: #008080;
+  --error-color: #ff6347;
+  --link-color: #1414f3;
+  --large-x-size: 24px;
+  --large-size: 22px;
+  --medium-x-size: 20px;
+  --medium-size: 18px;
+  --small-x-size: 16px;
+  --small-size: 14px;
+  --mini-x-size: 12px;
+  --mini-size: 10px;
+  --box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-image: url("./assets/images/background.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  width: 100%;
+  color: var(--font-dark);
+  font-size: var(--small-size);
+  margin: 0 auto;
+  font-family: "Poppins", sans-serif;
+
+  .btn {
+    background-color: transparent;
+    color: var(--btn-color);
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+    cursor: pointer;
+    &:hover {
+      background-color: var(--primary-color);
+      color: var(--font-light);
+      border: 1px solid var(--primary-color);
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    &:disabled,
+    &:disabled:hover {
+      border: 1px solid var(--border-color) !important;
+      color: var(--border-color);
+      background-color: var(--disable-color) !important;
+      cursor: not-allowed;
+      pointer-events: all;
+    }
+  }
+
+  .btn-edit {
+    padding: 1px 2px;
+    background-color: transparent;
+    border: 1px solid var(--success-color);
+    color: var(--success-color);
+    transition: var(--transition);
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    mat-icon {
+      padding-top: 3px;
+      font-size: 20px;
+    }
+    &:hover {
+      background-color: var(--success-color);
+      color: var(--font-light);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    &:disabled,
+    &:disabled:hover {
+      border: 1px solid var(--border-color) !important;
+      color: var(--border-color);
+      background-color: var(--disable-color) !important;
+      cursor: not-allowed;
+      pointer-events: all;
+    }
+  }
+
+  .search-btn {
+    width: 80px !important;
+    margin-top: -23px;
+    margin-left: -4px;
+    height: 48px !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+  }
+  .table-wrapper {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    .table {
+      white-space: nowrap;
+      margin-bottom: 0;
+      .odd-row {
+        background-color: #fff8f8 !important;
+      }
+    }
+  }
+  .btn-delete {
+    padding: 1px 2px;
+    text-align: center;
+    background-color: transparent;
+    border: 1px solid var(--error-color) !important;
+    color: var(--error-color);
+    transition: var(--transition);
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    mat-icon {
+      padding-top: 3px;
+      font-size: 20px;
+    }
+    &:hover {
+      background-color: var(--error-color) !important;
+      color: var(--font-light);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    &:disabled,
+    &:disabled:hover {
+      border: 1px solid var(--border-color) !important;
+      color: var(--border-color);
+      background-color: var(--disable-color) !important;
+      cursor: not-allowed;
+      pointer-events: all;
+    }
+  }
+  th {
+    font-weight: 600 !important;
+  }
+
+  td,
+  th,
+  .pagination {
+    font-size: var(--small-size) !important;
+    @media screen and (max-width: 480px) {
+      font-size: var(--mini-x-size) !important;
+    }
+  }
+  .pagination {
+    @media screen and (max-width: 360px) {
+      font-size: var(--mini-size) !important;
+    }
+  }
+  .swal-container {
+    background-color: rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .swal-close {
+    margin-top: -8px;
+    color: var(--error-color) !important;
+  }
+
+  .swal-close:focus {
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  .swal-dialog {
+    background-color: var(--font-light) !important;
+  }
+
+  .swal-title {
+    padding-top: 40px !important;
+    font-size: var(--small-x-size);
+  }
+
+  .swal-cancel {
+    background-color: var(--error-color) !important;
+    border: 1px solid var(--error-color) !important;
+    color: var(--font-light) !important;
+    box-shadow: var(--box-shadow) !important;
+    width: 88px !important;
+    font-size: var(--small-size) !important;
+    &:hover :focus {
+      box-shadow: var(--box-shadow);
+    }
+  }
+
+  .swal-confirm {
+    background-color: var(--primary-color) !important;
+    border: 1px solid var(--primary-color) !important;
+    color: var(--font-light) !important;
+    box-shadow: var(--box-shadow) !important;
+    width: 88px !important;
+    font-size: var(--small-size) !important;
+    &:hover :focus {
+      box-shadow: var(--box-shadow);
+    }
+  }
+
+  .mdc-text-field--filled .mdc-line-ripple::after {
+    border-bottom-color: var(--primary-color) !important;
+  }
+
+  .wrapper {
+    padding: 90px 20px 40px;
+  }
+  .container {
+    background-color: var(--font-light);
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius) !important;
+    padding: 20px;
+    margin-top: 10px;
+    margin-bottom: 40px;
+  }
+  .card {
+    background-color: var(--font-light);
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  #footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 1920px;
+    width: 100% !important;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  body {
+    font-size: var(--mini-size) !important;
+  }
+}

@@ -1,0 +1,38 @@
+.splash-screen {
+  position: fixed;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0 auto;
+
+  .txt{
+    font-size: var(--medium-size);
+    font-weight: 600;
+    color: var(--font-dark);
+    animation: splash-screen-animation 1.5s infinite;
+    @media screen and (max-width: 480px) {
+      font-size: var(--small-x-size);
+    }
+    @media screen and (max-width: 480px) {
+      font-size: var(--small-size);
+    }
+  }
+}
+
+@keyframes splash-screen-animation {
+  0% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+}

@@ -1,0 +1,20 @@
+.dashboard-nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  p {
+    a {
+      display: flex;
+      align-items: center;
+      img {
+        cursor: pointer;
+        width: 22px;
+      }
+      p {
+        font-size: var(--medium-size);
+        color: var(--primary-color);
+        cursor: pointer;
+      }
+    }
+  }
+}

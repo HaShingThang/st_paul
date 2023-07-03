@@ -1,0 +1,68 @@
+<div class="wrapper">
+  <ul class="card-wrapper">
+    <li *ngIf="authService.isSuperAdmin() || authService.isAdmin()">
+      <app-dashboard-card
+        title="Admin List"
+        link="/admin-list"
+        [svgRole]="'../../../assets/images/admin.svg'"
+      />
+    </li>
+    <li>
+      <app-dashboard-card
+        title="Teacher List"
+        link="/teacher-list"
+        [svgRole]="'../../../assets/images/teacher.svg'"
+      />
+    </li>
+    <li>
+      <app-dashboard-card
+        title="Student List"
+        link="/student-list"
+        [svgRole]="'../../../assets/images/student.svg'"
+      />
+    </li>
+    <li>
+      <app-dashboard-card
+        title="Mark List"
+        link="/mark-list"
+        [svgRole]="'../../../assets/images/mark.svg'"
+      />
+    </li>
+    <li>
+      <app-dashboard-card
+        title="Attendance List"
+        link="/attendance-list"
+        [svgRole]="'../../../assets/images/attendance.svg'"
+      />
+    </li>
+    <li>
+      <app-dashboard-card
+        title="Time Table"
+        link="/time-table"
+        [svgRole]="'../../../assets/images/timetable.svg'"
+      />
+    </li>
+    <li>
+      <app-dashboard-card
+        title="Leave Report"
+        link="/leave-report"
+        [svgRole]="'../../../assets/images/leavereport.svg'"
+      />
+    </li>
+    <li>
+      <app-dashboard-card
+        title="Profile"
+        link="/profile"
+        [svgRole]="'../../../assets/images/profile.svg'"
+      />
+    </li>
+    <li>
+      <app-dashboard-card
+        title="Gallery"
+        link="/gallery"
+        [svgRole]="'../../../assets/images/gallery.svg'"
+      />
+    </li>
+  </ul>
+  <app-footer id="footer" />
+</div>

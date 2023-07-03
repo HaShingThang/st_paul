@@ -1,0 +1,25 @@
+.search {
+  width: 280px;
+  height: 70px;
+  border-top-right-radius: 0 !important;
+  ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    border-top-right-radius: 0 !important;
+  }
+  .clear-search {
+    margin-top: -6px;
+    transition: var(--transition);
+    cursor: pointer;
+    &:hover {
+      color: var(--error-color);
+      transition: var(--transition);
+    }
+  }
+  @media screen and (max-width: 480px) {
+    width: 200px;
+    align-self: flex-end;
+  }
+  @media screen and (max-width: 360px) {
+    width: 180px;
+    align-self: flex-end;
+  }
+}
