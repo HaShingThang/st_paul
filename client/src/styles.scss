@@ -82,6 +82,46 @@ $client-theme: mat.define-light-theme(
   --mini-x-size: 12px;
   --mini-size: 10px;
   --box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  --dial-background-color: red !important;
+}
+
+[_nghost-ng-c2618114771] {
+  --body-background-color: #fff;
+  --primary-font-family: "Roboto", sans-serif;
+  --button-color: var(--primary-color) !important;
+  --dial-active-color: #fff;
+  --dial-inactive-color: rgba(255, 255, 255, 0.5);
+  --dial-background-color: var(--primary-color) !important;
+  --dial-editable-active-color: var(--primary-color) !important;
+  --dial-editable-background-color: #fff;
+  --clock-face-time-active-color: #fff;
+  --clock-face-time-inactive-color: #6c6c6c;
+  --clock-face-inner-time-inactive-color: #929292;
+  --clock-face-time-disabled-color: #c5c5c5;
+  --clock-face-background-color: #f0f0f0;
+  --clock-hand-color: var(--primary-color) !important;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: var(--btn-disable);
+  -webkit-box-shadow: inset 0 0 6px #00000080;
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+  background: var(--btn-disable);
 }
 
 html,
@@ -156,9 +196,9 @@ body {
 
   .search-btn {
     width: 80px !important;
-    margin-top: -23px;
+    margin-top: -21.5px;
     margin-left: -4px;
-    height: 48px !important;
+    height: 48.3px !important;
     border-top-left-radius: 0 !important;
     border-bottom-left-radius: 0 !important;
   }
@@ -209,9 +249,9 @@ body {
   td,
   th,
   .pagination {
-    font-size: var(--small-size) !important;
+    font-size: var(--mini-x-size) !important;
     @media screen and (max-width: 480px) {
-      font-size: var(--mini-x-size) !important;
+      font-size: var(--mini-size) !important;
     }
   }
   .pagination {
@@ -304,6 +344,7 @@ body {
     width: 100% !important;
   }
 }
+
 
 @media screen and (max-width: 320px) {
   body {

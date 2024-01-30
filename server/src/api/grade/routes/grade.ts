@@ -22,15 +22,15 @@ export default {
         policies: ["global::is-auth"],
       },
     },
-    // {
-    //   method: "CREATE",
-    //   path: "/grades",
-    //   handler: "grade.create",
-    //   config: {
-    //     middlewares: ["global::is-auth"],
-    //     policies: ["global::is-auth"],
-    //   },
-    // },
+    {
+      method: "POST",
+      path: "/grades",
+      handler: "grade.create",
+      config: {
+        middlewares: ["global::is-admin"],
+        policies: ["global::is-admin"],
+      },
+    },
     // {
     //   method: "PUT",
     //   path: "/grades",

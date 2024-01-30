@@ -3,14 +3,11 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { ROLES } from 'src/app/constants/constants';
 import {
-  createData,
   deleteMessage,
   isAdmin,
   noResultFound,
   searching,
-  superAdmin,
 } from 'src/app/constants/messages';
 import { TeacherData } from 'src/app/interfaces/interfaces';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -35,7 +32,6 @@ export class TeacherListComponent implements OnInit {
     'Teaching',
     'Address',
     'PhNo',
-    'Action',
   ];
 
   teacherData = new MatTableDataSource<TeacherData>([]);
@@ -51,7 +47,11 @@ export class TeacherListComponent implements OnInit {
     private teacherService: TeacherService,
     private router: Router,
     public authService: AuthService
-  ) {}
+  ) {
+    if (this.authService.isAdmin()) {
+      this.displayedColumns.push('Action');
+    }
+  }
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -157,13 +157,13 @@ export class TeacherListComponent implements OnInit {
           data.username,
           data.email,
           grade,
-          data.address,
-          data.phNo ?? '-',
+          data.address ? data.address : '-',
+          data.phNo ? data.phNo : '-',
         ];
       }
     );
     const columns = [...this.displayedColumns];
-    columns.pop();
+    columns.splice(6);
     teacherData.length &&
       exportToExcel(teacherData, columns, 'teacherData', 'teacher');
   }

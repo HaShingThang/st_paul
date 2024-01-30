@@ -1,0 +1,154 @@
+<div class="wrapper">
+  <app-dashboard-nav
+    dashboardLink="/dashboard"
+    *ngIf="!isUpdateMode"
+    routerLink="/exam-add"
+    routerType="Add New Exam"
+  />
+  <app-dashboard-nav
+    dashboardLink="/dashboard"
+    *ngIf="isUpdateMode"
+    routerLink="/exam-edit/{{ examId }}"
+    [routerType]="editAccount"
+  />
+
+  <div class="container">
+    <form [formGroup]="examForm" (ngSubmit)="examSubmit()" novalidate>
+      <!-- Period -->
+      <mat-form-field class="input">
+        <mat-label>Period</mat-label>
+        <input
+          minlength="9"
+          maxlength="9"
+          type="text"
+          matInput
+          formControlName="period"
+          placeholder="Eg: period-01"
+        />
+        <mat-error
+          class="error"
+          *ngIf="
+            examForm.get('period')?.invalid &&
+            (examForm.get('period')?.dirty || examForm.get('period')?.touched)
+          "
+        >
+          <span *ngIf="examForm.get('period')?.errors?.['required']"
+            >Period is required.</span
+          >
+          <span *ngIf="examForm.get('period')?.errors?.['pattern']">
+            Invalid Period!(Eg: Period-01 to Period-60).
+          </span>
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Grade -->
+      <mat-form-field class="input">
+        <mat-label>Select Grade</mat-label>
+        <mat-select formControlName="grade">
+          <mat-option *ngFor="let grade of grades" [value]="grade.id">{{
+            grade.grade
+          }}</mat-option>
+        </mat-select>
+        <mat-error
+          class="error"
+          *ngIf="
+            examForm.get('grade')?.invalid &&
+            (examForm.get('grade')?.dirty || examForm.get('grade')?.touched)
+          "
+        >
+          <span *ngIf="examForm.get('grade')?.errors?.['required']"
+            >Grade is required.</span
+          ></mat-error
+        >
+      </mat-form-field>
+
+      <!-- Exam Date -->
+      <mat-form-field class="input">
+        <mat-label>Exam Date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="datePicker"
+          formControlName="examDate"
+          (click)="datePicker.open()"
+          readonly
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="datePicker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker touchUi #datePicker></mat-datepicker>
+        <mat-error
+          class="error"
+          *ngIf="
+            examForm.get('examDate')?.invalid &&
+            (examForm.get('examDate')?.dirty ||
+              examForm.get('examDate')?.touched)
+          "
+        >
+          <span *ngIf="examForm.get('examDate')?.errors?.['required']"
+            >Exam Date is required.</span
+          ></mat-error
+        >
+      </mat-form-field>
+
+      <!-- Exam Start Time -->
+      <mat-form-field class="input">
+        <mat-label>Exam Start Time</mat-label>
+        <input
+          formControlName="examTime"
+          matInput
+          [ngxTimepicker]="timePicker"
+          readonly
+        />
+        <ngx-material-timepicker-toggle
+          matSuffix
+          [for]="timePicker"
+        ></ngx-material-timepicker-toggle>
+        <ngx-material-timepicker #timePicker></ngx-material-timepicker>
+        <mat-error
+          class="error"
+          *ngIf="
+            examForm.get('examTime')?.invalid &&
+            (examForm.get('examTime')?.dirty ||
+              examForm.get('examTime')?.touched)
+          "
+        >
+          <span *ngIf="examForm.get('examTime')?.errors?.['required']"
+            >Exam Time is required.</span
+          ></mat-error
+        >
+      </mat-form-field>
+
+      <!-- Description -->
+      <mat-form-field class="input">
+        <mat-label>Description</mat-label>
+        <textarea
+          matInput
+          rows="2"
+          maxlength="2000"
+          formControlName="description"
+        ></textarea>
+      </mat-form-field>
+
+      <div class="confirm-btn" *ngIf="showSubmit">
+        <p class="btn swal-cancel" (click)="formEnable()">Cancel</p>
+        <button type="submit" class="btn swal-confirm">Confirm</button>
+      </div>
+    </form>
+    <button
+      *ngIf="!showSubmit"
+      mat-raised-button
+      type="submit"
+      class="btn"
+      (click)="formDisable()"
+      [disabled]="!examForm.valid"
+    >
+      <span *ngIf="!isUpdateMode">Add</span>
+      <span *ngIf="isUpdateMode">Update</span>
+    </button>
+    <app-back routerLink="/exams" />
+  </div>
+
+  <app-footer id="footer" />
+</div>
+<!-- <app-loading-screen *ngIf="adminService.isLoading || isLoading" /> -->

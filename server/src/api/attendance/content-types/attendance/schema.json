@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "attendances",
+  "info": {
+    "singularName": "attendance",
+    "pluralName": "attendances",
+    "displayName": "Attendance",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "month": {
+      "type": "date"
+    },
+    "attendance": {
+      "type": "integer",
+      "max": 100,
+      "min": 0
+    },
+    "academicYear": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::academic-year.academic-year"
+    },
+    "student": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::student.student",
+      "inversedBy": "attendance"
+    }
+  }
+}

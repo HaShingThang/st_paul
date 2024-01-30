@@ -27,7 +27,8 @@
         "Grade-8",
         "Grade-9",
         "Grade-10",
-        "Grade-11"
+        "Grade-11",
+        "Grade-12"
       ]
     },
     "users": {
@@ -35,6 +36,18 @@
       "relation": "manyToMany",
       "target": "plugin::users-permissions.user",
       "inversedBy": "grades"
+    },
+    "students": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::student.student",
+      "mappedBy": "grade"
+    },
+    "exams": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::exam.exam",
+      "mappedBy": "grade"
     }
   }
 }

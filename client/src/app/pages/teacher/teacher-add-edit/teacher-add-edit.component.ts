@@ -37,7 +37,6 @@ export class TeacherAddEditComponent {
   showSubmit = false;
   isChangePassword = false;
   errorMessage = '';
-  editTeacher = 'Edit Teacher';
 
   grades!: Grade[];
 
@@ -84,7 +83,6 @@ export class TeacherAddEditComponent {
       } else {
         this.teacherService.getTeacherById(this.teacherId).subscribe({
           next: (teacher: TeacherData) => {
-            this.editTeacher = `Edit the name of ${teacher.username} in the Teachers list`;
             this.teacherForm.patchValue({
               username: teacher.username,
               email: teacher.email,

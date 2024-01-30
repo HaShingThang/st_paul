@@ -199,6 +199,7 @@ export default (plugin: any) => {
               connect: [1],
             },
             confirmed: true,
+            publishedAt: new Date(),
           },
           populate: ["role", "grades"],
         });
@@ -214,6 +215,7 @@ export default (plugin: any) => {
               connect: [1],
             },
             confirmed: true,
+            publishedAt: new Date(),
           },
           populate: ["role", "grades"],
         });
@@ -280,6 +282,7 @@ export default (plugin: any) => {
             where: { id: +id },
             data: {
               ...updateData,
+              updatedAt: new Date(),
             },
             populate: ["role"],
           });
@@ -290,6 +293,7 @@ export default (plugin: any) => {
             where: { id: +id },
             data: {
               ...ctx.request.body,
+              updatedAt: new Date(),
             },
             populate: ["role"],
           });
@@ -409,6 +413,7 @@ export default (plugin: any) => {
           phNo,
           role: +role,
           confirmed: true,
+          publishedAt: new Date(),
         },
         populate: ["role", "grades"],
       });
@@ -494,6 +499,7 @@ export default (plugin: any) => {
             where: { id: +id },
             data: {
               ...updateData,
+              updatedAt: new Date(),
             },
             populate: ["role", "grades"],
           });
@@ -514,6 +520,7 @@ export default (plugin: any) => {
             where: { id: +id },
             data: {
               ...updateData,
+              updatedAt: new Date()
             },
             populate: ["role", "grades"],
           });

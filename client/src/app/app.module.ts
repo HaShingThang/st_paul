@@ -34,6 +34,21 @@ import { TeacherListComponent } from './pages/teacher/teacher-list/teacher-list.
 import { TeacherAddEditComponent } from './pages/teacher/teacher-add-edit/teacher-add-edit.component';
 import { StudentListComponent } from './pages/student/student-list/student-list.component';
 import { StudentAddEditComponent } from './pages/student/student-add-edit/student-add-edit.component';
+import { StudentDashboardComponent } from './pages/student/student-dashboard/student-dashboard.component';
+import { GradeListComponent } from './pages/grade/grade-list/grade-list.component';
+import { GradeDialogComponent } from './pages/grade/grade-dialog/grade-dialog.component';
+import { ExamListComponent } from './pages/exam/exam-list/exam-list.component';
+import { YearListComponent } from './pages/academic-year/year-list/year-list.component';
+import { YearAddDialogComponent } from './pages/academic-year/year-add-dialog/year-add-dialog.component';
+import { GuardianDialogComponent } from './pages/student/guardian-dialog/guardian-dialog.component';
+import { MarkListComponent } from './pages/mark/mark-list/mark-list.component';
+import { GradeCardComponent } from './components/grade-card/grade-card.component';
+import { MarkDashboardComponent } from './pages/mark/mark-dashboard/mark-dashboard.component';
+import { ExamAddEditComponent } from './pages/exam/exam-add-edit/exam-add-edit.component';
+import { NgxMatDatetimePickerModule } from '@angular-material-components/datetime-picker';
+import { TimeFormatPipe } from './pipes/time-format.pipe';
+
+
 
 @NgModule({
   declarations: [
@@ -59,6 +74,18 @@ import { StudentAddEditComponent } from './pages/student/student-add-edit/studen
     TeacherAddEditComponent,
     StudentListComponent,
     StudentAddEditComponent,
+    StudentDashboardComponent,
+    GradeListComponent,
+    GradeDialogComponent,
+    ExamListComponent,
+    YearListComponent,
+    YearAddDialogComponent,
+    GuardianDialogComponent,
+    MarkListComponent,
+    GradeCardComponent,
+    MarkDashboardComponent,
+    ExamAddEditComponent,
+    TimeFormatPipe,
   ],
   imports: [
     BrowserModule,
@@ -68,6 +95,7 @@ import { StudentAddEditComponent } from './pages/student/student-add-edit/studen
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MaterialModule,
+    NgxMatDatetimePickerModule,
   ],
   providers: [
     SplashScreenComponent,
@@ -84,7 +112,7 @@ export class AppModule {
     if (this.authService.isAuth()) {
       this.authService.getCurrentUser().subscribe({
         error: (error) => {
-          if (error) {
+          if (error.statusText != 'Unknown Error') {
             this.authService.sessionExpired(accountDeleted);
           } else {
             this.authService.sessionExpired(serverError);

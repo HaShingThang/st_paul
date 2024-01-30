@@ -1,0 +1,168 @@
+<div class="wrapper">
+  <app-dashboard-nav
+    dashboardLink="/dashboard"
+    routerLink="/exams"
+    routerType="Exams"
+  ></app-dashboard-nav>
+  <div class="container search-container">
+    <div class="search-gp">
+      <div class="search-box">
+        <app-search-input
+          placeholder="Search by period"
+          [searchValue]="searchValue"
+          (searchCleared)="clearSearch()"
+          (searchValueChanged)="searchValue = $event"
+        ></app-search-input>
+        <mat-form-field class="search">
+          <mat-label>Exam Date</mat-label>
+          <input
+            matInput
+            [(ngModel)]="examDate"
+            [matDatepicker]="datePicker"
+            (click)="datePicker.open()"
+            readonly
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="datePicker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #datePicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="search">
+          <mat-label>Exam Start Time</mat-label>
+          <input
+           
+            matInput
+            [(ngModel)]="examTime"
+            [ngxTimepicker]="timePicker"
+            readonly
+          />
+          <ngx-material-timepicker-toggle
+            matSuffix
+            [for]="timePicker"
+          ></ngx-material-timepicker-toggle>
+          <ngx-material-timepicker #timePicker></ngx-material-timepicker>
+        </mat-form-field>
+        <mat-form-field class="search">
+          <mat-label>Select Grade</mat-label>
+          <mat-select class="select" [(ngModel)]="grade" disableRipple>
+            <mat-option
+              class="option"
+              *ngFor="let grade of grades"
+              [value]="grade.grade"
+              >{{ grade.grade }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="search-btn-wrapper">
+        <button class="btn-delete" (click)="clearAllSearch()" mat-raised-button>
+          Clear
+        </button>
+        <button
+          class="btn-edit"
+          (click)="searchExam()"
+          mat-raised-button
+          color="primary"
+        >
+          Search
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="table-header">
+      <ng-component />
+      <div class="tb-h-right-gp">
+        <p></p>
+        <button
+          class="btn"
+          mat-raised-button
+          routerLink="/exam-add"
+          *ngIf="authService.isAdmin"
+        >
+          <mat-icon>add_circle_outline</mat-icon><span>New Exam</span>
+        </button>
+      </div>
+    </div>
+    <div class="table-wrapper">
+      <table mat-table [dataSource]="examData" class="table" matSort>
+        <!-- No Column -->
+        <ng-container matColumnDef="No">
+          <th mat-header-cell *matHeaderCellDef>No</th>
+          <td mat-cell *matCellDef="let exam">{{ exam.no }}</td>
+        </ng-container>
+
+        <!-- Period Column -->
+        <ng-container matColumnDef="Period" sticky>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Period</th>
+          <td mat-cell *matCellDef="let exam">{{ exam.period }}</td>
+        </ng-container>
+
+        <!-- Grade Column -->
+        <ng-container matColumnDef="Grade">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Grade</th>
+          <td mat-cell *matCellDef="let exam">{{ exam.grade.grade }}</td>
+        </ng-container>
+
+        <!-- Exam Date Column -->
+        <ng-container matColumnDef="Exam Date">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Exam Date</th>
+          <td mat-cell *matCellDef="let exam">
+            {{ exam.examDate | date : "EEE, MMMM d, y" }}
+          </td>
+        </ng-container>
+
+        <!-- Exam Time Column -->
+        <ng-container matColumnDef="Exam Time">
+          <th mat-header-cell *matHeaderCellDef>Exam Time</th>
+          <td mat-cell *matCellDef="let exam">
+            {{ exam.examTime | timeFormat }}
+          </td>
+        </ng-container>
+
+        <!-- Description Column -->
+        <ng-container matColumnDef="Description">
+          <th mat-header-cell *matHeaderCellDef>Description</th>
+          <td mat-cell *matCellDef="let exam">
+            {{ exam.description ? exam.description : "---" }}
+          </td>
+        </ng-container>
+
+        <!-- Action Column -->
+        <ng-container matColumnDef="Action" *ngIf="authService.isSuperAdmin()">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
+          <td class="action" mat-cell *matCellDef="let exam">
+            <button class="btn btn-edit" [routerLink]="'/exam-edit/' + exam.id">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              (click)="deleteExam(exam)"
+              class="btn btn-delete"
+              [disabled]="!authService.isAdmin()"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; index as i; columns: displayedColumns"
+          [class.odd-row]="i % 2 === 0"
+        ></tr>
+      </table>
+    </div>
+    <p class="no-data" *ngIf="noData">{{ noData }}</p>
+    <mat-paginator
+      class="pagination"
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+      aria-label="Select page of periodic exams"
+    >
+    </mat-paginator>
+    <app-footer id="footer" />
+  </div>
+  <app-loading-screen *ngIf="isLoading"></app-loading-screen>
+</div>

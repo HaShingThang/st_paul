@@ -6,7 +6,6 @@ import { AdminData } from 'src/app/interfaces/interfaces';
 import { showDialog } from 'src/app/utils/functions';
 import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
-import { superAdmin } from '../../constants/messages';
 
 @Injectable({
   providedIn: 'root',

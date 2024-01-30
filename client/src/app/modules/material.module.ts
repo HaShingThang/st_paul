@@ -11,6 +11,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
+import {MatGridListModule} from '@angular/material/grid-list';
+// import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 
 @NgModule({
   imports: [
@@ -27,6 +30,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatDatepickerModule,
     MatProgressSpinnerModule,
     MatDialogModule,
+    MatGridListModule,
+    NgxMaterialTimepickerModule,
   ],
   exports: [
     MatButtonModule,
@@ -42,6 +47,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatDatepickerModule,
     MatProgressSpinnerModule,
     MatDialogModule,
+    MatGridListModule,
+    NgxMaterialTimepickerModule,
   ],
 })
 export class MaterialModule {}

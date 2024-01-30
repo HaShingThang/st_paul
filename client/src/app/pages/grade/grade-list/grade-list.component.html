@@ -1,0 +1,82 @@
+<div class="wrapper">
+  <app-dashboard-nav
+    dashboardLink="/dashboard"
+    routerLink="/grades"
+    routerType="Grades"
+  ></app-dashboard-nav>
+  <div class="container">
+    <div class="table-header">
+      <p></p>
+      <button
+        class="btn"
+        mat-raised-button
+        *ngIf="authService.isAdmin()"
+        (click)="openDialog('300ms', '300ms')"
+      >
+        <mat-icon>add_circle_outline</mat-icon><span>New Grade</span>
+      </button>
+    </div>
+    <div class="table-wrapper">
+      <table mat-table [dataSource]="gradeData" class="table">
+        <!-- No Column -->
+        <ng-container matColumnDef="No">
+          <th mat-header-cell *matHeaderCellDef>No</th>
+          <td mat-cell *matCellDef="let grade">{{ grade.no }}</td>
+        </ng-container>
+
+        <!-- Grade Column -->
+        <ng-container matColumnDef="Grade">
+          <th mat-header-cell *matHeaderCellDef>Grade</th>
+          <td mat-cell *matCellDef="let grade">{{ grade.grade }}</td>
+        </ng-container>
+
+        <!-- Teacher Count Column -->
+        <ng-container matColumnDef="Teacher Count">
+          <th mat-header-cell *matHeaderCellDef>Teacher Count</th>
+          <td mat-cell *matCellDef="let grade">{{ grade.users.length }}</td>
+        </ng-container>
+
+        <!-- Student Count Column -->
+        <ng-container matColumnDef="Student Count">
+          <th mat-header-cell *matHeaderCellDef>Student Count</th>
+          <td mat-cell *matCellDef="let grade">
+            {{ grade.students.length }}
+          </td>
+        </ng-container>
+
+        <!-- Action Column -->
+        <!-- <ng-container matColumnDef="Action" *ngIf="authService.isAdmin()">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td class="action" mat-cell *matCellDef="let grade">
+            <button
+              class="btn btn-edit"
+              [routerLink]="'/grade-edit/' + grade.id"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button (click)="deletegrade(grade)" class="btn btn-delete">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container> -->
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; index as i; columns: displayedColumns"
+          [class.odd-row]="i % 2 === 0"
+        ></tr>
+      </table>
+    </div>
+    <p class="no-data" *ngIf="noData">{{ noData }}</p>
+    <mat-paginator
+      class="pagination"
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+      aria-label="Select page of periodic grades"
+    >
+    </mat-paginator>
+  </div>
+  <app-footer id="footer" />
+</div>
+<app-loading-screen *ngIf="isLoading"></app-loading-screen>

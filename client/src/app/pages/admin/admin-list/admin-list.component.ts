@@ -26,14 +26,7 @@ import { showDialog } from 'src/app/utils/functions';
   styleUrls: ['./admin-list.component.scss'],
 })
 export class AdminListComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = [
-    'No',
-    'Name',
-    'Email',
-    'PhNo',
-    'Role',
-    'Action',
-  ];
+  displayedColumns: string[] = ['No', 'Name', 'Email', 'PhNo', 'Role'];
 
   adminData = new MatTableDataSource<AdminData>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -48,7 +41,11 @@ export class AdminListComponent implements OnInit, AfterViewInit {
     private adminService: AdminService,
     public router: Router,
     public authService: AuthService
-  ) {}
+  ) {
+    if (this.authService.isSuperAdmin()) {
+      this.displayedColumns.push('Action');
+    }
+  }
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -142,10 +139,16 @@ export class AdminListComponent implements OnInit, AfterViewInit {
   //Export Excel
   exportExcel() {
     const adminData = this.adminData.data.map((data: any, index: number) => {
-      return [index + 1, data.username, data.email, data.phNo ?? '-'];
+      return [
+        index + 1,
+        data.username,
+        data.email,
+        data.phNo ?? '-',
+        data.role.name,
+      ];
     });
     const columns = [...this.displayedColumns];
-    columns.splice(4);
+    columns.splice(5);
     adminData.length && exportToExcel(adminData, columns, 'AdminData', 'admin');
   }
 }

@@ -1,0 +1,18 @@
+<div class="wrapper">
+  <app-dashboard-nav
+    [dashboardLink]="dashboardLink"
+    [routerLink]="routerLink"
+    [routerType]="routerType"
+  />
+  <ul class="card-wrapper">
+    <li *ngFor="let grade of grades">
+      <app-dashboard-card
+        [title]="grade.grade"
+        [link]="link + grade.grade.toLowerCase()"
+        [svgRole]="'../../../assets/images/student.svg'"
+      ></app-dashboard-card>
+    </li>
+  </ul>
+  <app-footer id="footer"></app-footer>
+</div>
+<app-loading-screen *ngIf="isLoading" />

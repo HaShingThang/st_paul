@@ -1,4 +1,151 @@
 <div class="wrapper">
-  <app-dashboard-nav routerLink="/student-list" routerType="Student List" />
-  <div class="container"></div>
+  <app-dashboard-nav
+    dashboardLink="/student-dashboard"
+    [routerLink]="'/students/' + getParam"
+    [routerType]="'Students | ' + getParam | titlecase"
+  ></app-dashboard-nav>
+  <div class="container">
+    <div class="table-header">
+      <div class="search-gp">
+        <app-search-input
+          placeholder="Search by name"
+          [searchValue]="searchValue"
+          (searchCleared)="clearSearch()"
+          (searchValueChanged)="searchValue = $event"
+        ></app-search-input>
+        <button
+          class="search-btn"
+          (click)="searchStudent()"
+          mat-raised-button
+          color="primary"
+        >
+          Search
+        </button>
+      </div>
+      <div class="tb-h-right-gp">
+        <p *ngIf="!authService.isAdmin()"></p>
+        <button
+          mat-raised-button
+          class="btn"
+          (click)="exportExcel()"
+          [disabled]="!studentData.data.length"
+        >
+          <mat-icon>get_app</mat-icon><span>Download</span>
+        </button>
+        <button
+          class="btn"
+          mat-raised-button
+          [routerLink]="'/student-add/' + getParam"
+        >
+          <mat-icon>add_circle_outline</mat-icon><span>New Student</span>
+        </button>
+      </div>
+    </div>
+    <div class="table-wrapper">
+      <table mat-table [dataSource]="studentData" class="table" matSort>
+        <!-- No Column -->
+        <ng-container matColumnDef="No">
+          <th mat-header-cell *matHeaderCellDef>No</th>
+          <td mat-cell *matCellDef="let student">{{ student.no }}</td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="Name" sticky>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+          <td mat-cell *matCellDef="let student">{{ student.name }}</td>
+        </ng-container>
+
+        <!-- Student ID Column -->
+        <ng-container matColumnDef="StudentID">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>StudentID</th>
+          <td mat-cell *matCellDef="let student">{{ student.studentId }}</td>
+        </ng-container>
+
+        <!-- Grade Column -->
+        <ng-container matColumnDef="Grade">
+          <th mat-header-cell *matHeaderCellDef>Grade</th>
+          <td mat-cell *matCellDef="let student">
+            {{ student.grade.grade }}
+          </td>
+        </ng-container>
+
+        <!-- Gender Column -->
+        <ng-container matColumnDef="Gender">
+          <th mat-header-cell *matHeaderCellDef>Gender</th>
+          <td mat-cell *matCellDef="let student">
+            {{ student.gender }}
+          </td>
+        </ng-container>
+
+        <!-- Academic Year Column -->
+        <ng-container matColumnDef="Academic Year">
+          <th mat-header-cell *matHeaderCellDef>Academic Year</th>
+          <td mat-cell *matCellDef="let student">
+            {{ student.academicYear.startYear | date : "yyyy" }} -
+            {{ student.academicYear.endYear | date : "yyyy" }}
+          </td>
+        </ng-container>
+
+        <!-- GuardianInfo Column -->
+        <ng-container matColumnDef="GuardianInfo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            GuardianInfo
+          </th>
+          <td mat-cell *matCellDef="let student">
+            <span
+              (click)="
+                openDialog('300ms', '300ms', student.guardianInfo, student.name)
+              "
+              >Info</span
+            >
+          </td>
+        </ng-container>
+
+        <!-- Address Column -->
+        <ng-container matColumnDef="Address">
+          <th mat-header-cell *matHeaderCellDef>Address</th>
+          <td mat-cell *matCellDef="let student">
+            {{ student.address ? student.address : "---" }}
+          </td>
+        </ng-container>
+
+        <!-- Action Column -->
+        <ng-container matColumnDef="Action" *ngIf="authService.isAdmin()">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td class="action" mat-cell *matCellDef="let student">
+            <button
+              class="btn btn-edit"
+              [routerLink]="'/student-edit/' + getParam + '/' + student.id"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button (click)="deleteStudent(student)" class="btn btn-delete">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; index as i; columns: displayedColumns"
+          [class.odd-row]="i % 2 === 0"
+        ></tr>
+      </table>
+    </div>
+    <p class="no-data" *ngIf="noData">{{ noData }}</p>
+    <mat-paginator
+      class="pagination"
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+      aria-label="Select page of periodic students"
+    >
+    </mat-paginator>
+  </div>
+
+  <app-footer id="footer" />
 </div>
+<app-loading-screen
+  [searching]="searching"
+  *ngIf="isLoading"
+></app-loading-screen>

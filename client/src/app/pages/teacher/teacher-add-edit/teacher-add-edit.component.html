@@ -1,13 +1,15 @@
 <div class="wrapper">
   <app-dashboard-nav
+    dashboardLink="/dashboard"
     *ngIf="!isUpdateMode"
     routerLink="/teacher-add"
     routerType="Add New Teacher"
   />
   <app-dashboard-nav
+    dashboardLink="/dashboard"
     *ngIf="isUpdateMode"
     routerLink="/teacher-edit/{{ teacherId }}"
-    [routerType]="editTeacher"
+    routerType="Edit Teacher"
   />
 
   <div class="container">

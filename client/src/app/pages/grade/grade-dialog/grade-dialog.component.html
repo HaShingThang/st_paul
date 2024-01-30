@@ -1,0 +1,42 @@
+<h3 mat-dialog-title>Add New Grade</h3>
+<div mat-dialog-content class="dialog-container">
+  <form [formGroup]="gradeForm" (ngSubmit)="gradeSubmit()" novalidate>
+    <mat-form-field class="input">
+      <mat-label>Select Grade</mat-label>
+      <mat-select formControlName="grade" required>
+        <mat-option *ngFor="let grade of grades" [value]="grade.grade">
+          {{ grade.grade }}
+        </mat-option>
+      </mat-select>
+      <mat-error
+        class="error"
+        *ngIf="
+          gradeForm.get('grade')?.invalid &&
+          (gradeForm.get('grade')?.dirty || gradeForm.get('grade')?.touched)
+        "
+      >
+        <span *ngIf="gradeForm.get('grade')?.errors?.['required']"
+          >Grade is required.</span
+        >
+      </mat-error>
+    </mat-form-field>
+    <div class="confirm-btn" *ngIf="showSubmit">
+      <p class="btn swal-cancel" (click)="formEnable()">Cancel</p>
+      <button type="submit" class="btn swal-confirm">Confirm</button>
+    </div>
+  </form>
+  <button
+    *ngIf="!showSubmit"
+    mat-raised-button
+    type="submit"
+    class="btn btn-add"
+    (click)="formDisable()"
+    [disabled]="!gradeForm.valid"
+  >
+    <span>Add</span>
+  </button>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-dialog-close class="close">Close</button>
+</div>

@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "marks",
+  "info": {
+    "singularName": "mark",
+    "pluralName": "marks",
+    "displayName": "Mark",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "student": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::student.student",
+      "inversedBy": "mark"
+    },
+    "exam": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::exam.exam",
+      "mappedBy": "mark"
+    },
+    "subjects": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::subject.subject",
+      "mappedBy": "marks"
+    },
+    "academicYear": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::academic-year.academic-year",
+      "inversedBy": "marks"
+    }
+  }
+}

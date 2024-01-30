@@ -13,6 +13,13 @@ import { TeacherListComponent } from './pages/teacher/teacher-list/teacher-list.
 import { TeacherAddEditComponent } from './pages/teacher/teacher-add-edit/teacher-add-edit.component';
 import { StudentListComponent } from './pages/student/student-list/student-list.component';
 import { StudentAddEditComponent } from './pages/student/student-add-edit/student-add-edit.component';
+import { StudentDashboardComponent } from './pages/student/student-dashboard/student-dashboard.component';
+import { GradeListComponent } from './pages/grade/grade-list/grade-list.component';
+import { ExamListComponent } from './pages/exam/exam-list/exam-list.component';
+import { YearListComponent } from './pages/academic-year/year-list/year-list.component';
+import { MarkDashboardComponent } from './pages/mark/mark-dashboard/mark-dashboard.component';
+import { MarkListComponent } from './pages/mark/mark-list/mark-list.component';
+import { ExamAddEditComponent } from './pages/exam/exam-add-edit/exam-add-edit.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -76,7 +83,15 @@ const routes: Routes = [
     },
   },
   {
-    path: 'student-list',
+    path: 'student-dashboard',
+    component: StudentDashboardComponent,
+    canActivate: [authGuard],
+    data: {
+      role: [ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.TEACHER],
+    },
+  },
+  {
+    path: 'students/:grade',
     component: StudentListComponent,
     canActivate: [authGuard],
     data: {
@@ -84,7 +99,7 @@ const routes: Routes = [
     },
   },
   {
-    path: 'student-add',
+    path: 'student-add/:grade',
     component: StudentAddEditComponent,
     canActivate: [authGuard],
     data: {
@@ -92,11 +107,67 @@ const routes: Routes = [
     },
   },
   {
-    path: 'student-edit',
+    path: 'student-edit/:grade/:id',
     component: StudentAddEditComponent,
     canActivate: [authGuard],
     data: {
       role: [ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.TEACHER],
+    },
+  },
+  {
+    path: 'mark-dashboard',
+    component: MarkDashboardComponent,
+    canActivate: [authGuard],
+    data: {
+      role: [ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.TEACHER],
+    },
+  },
+  {
+    path: 'marks/:grade',
+    component: MarkListComponent,
+    canActivate: [authGuard],
+    data: {
+      role: [ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.TEACHER],
+    },
+  },
+  {
+    path: 'grades',
+    component: GradeListComponent,
+    canActivate: [authGuard],
+    data: {
+      role: [ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.TEACHER, ROLES.STUDENT],
+    },
+  },
+  {
+    path: 'exams',
+    component: ExamListComponent,
+    canActivate: [authGuard],
+    data: {
+      role: [ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.TEACHER, ROLES.STUDENT],
+    },
+  },
+  {
+    path: 'exam-add',
+    component: ExamAddEditComponent,
+    canActivate: [authGuard],
+    data: {
+      role: [ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.TEACHER],
+    },
+  },
+  {
+    path: 'exam-edit/:id',
+    component: ExamAddEditComponent,
+    canActivate: [authGuard],
+    data: {
+      role: [ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.TEACHER],
+    },
+  },
+  {
+    path: 'academic-year',
+    component: YearListComponent,
+    canActivate: [authGuard],
+    data: {
+      role: [ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.TEACHER, ROLES.STUDENT],
     },
   },
   { path: '**', redirectTo: '', pathMatch: 'full' },

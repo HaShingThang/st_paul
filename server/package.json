@@ -16,6 +16,7 @@
     "@strapi/strapi": "4.11.3",
     "@types/bcrypt": "^5.0.0",
     "bcrypt": "^5.1.0",
+    "moment": "^2.29.4",
     "pg": "8.8.0"
   },
   "author": {

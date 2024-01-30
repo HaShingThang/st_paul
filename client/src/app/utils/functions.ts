@@ -6,8 +6,13 @@ export function showDialog(error: any) {
     const message = error.error.message[0].messages[0].message;
     errorMessageDialog(message);
   } else {
-    const message =
-      error.error.message ?? error.statusText ?? serverError;
+    const message = error.error.message ?? error.statusText ?? serverError;
     errorMessageDialog(message);
   }
+}
+
+export function toTitleCase(str: string) {
+  return str.replace(/\b\w+/g, function (txt) {
+    return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase();
+  });
 }

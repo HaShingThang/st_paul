@@ -1,0 +1,35 @@
+<h3 mat-dialog-title *ngIf="!isUpdateMode">Add Academic Year</h3>
+<h3 mat-dialog-title *ngIf="isUpdateMode">Edit Active Year</h3>
+<div mat-dialog-content class="dialog-container">
+  <form [formGroup]="yearForm" (ngSubmit)="yearSubmit()" novalidate>
+    <mat-form-field class="input">
+      <mat-label>Academic Year</mat-label>
+      <input type="text" matInput [value]="academicYear" disabled />
+    </mat-form-field>
+    <mat-form-field class="input">
+      <mat-label>Select Active Year</mat-label>
+      <mat-select formControlName="isActiveYear">
+        <mat-option [value]="false">False</mat-option>
+        <mat-option [value]="true">True</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="confirm-btn" *ngIf="showSubmit">
+      <p class="btn swal-cancel" (click)="formEnable()">Cancel</p>
+      <button type="submit" class="btn swal-confirm">Confirm</button>
+    </div>
+  </form>
+  <button
+    *ngIf="!showSubmit"
+    mat-raised-button
+    type="submit"
+    class="btn btn-add"
+    (click)="formDisable()"
+    [disabled]="!yearForm.valid"
+  >
+    <span>Add</span>
+  </button>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-dialog-close class="close">Close</button>
+</div>

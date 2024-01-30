@@ -1,0 +1,29 @@
+<h3 mat-dialog-title>GuardianInfo of {{ data.studentName }}</h3>
+
+<div mat-dialog-content class="dialog-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Guardian Name</th>
+        <th>Phone Number</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ data.guardianInfo.guardianName }}</td>
+        <td>
+          <a
+            [href]="'tel:' + data.guardianInfo.phNo"
+            *ngIf="data.guardianInfo.phNo"
+            >{{ data.guardianInfo.phNo }}</a
+          >
+          <span *ngIf="!data.guardianInfo.phNo">--</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div mat-dialog-actions class="dialog-ft">
+  <button mat-dialog-close class="btn-delete">Close</button>
+</div>

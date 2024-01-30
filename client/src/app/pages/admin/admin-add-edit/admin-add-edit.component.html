@@ -1,10 +1,12 @@
 <div class="wrapper">
   <app-dashboard-nav
+    dashboardLink="/dashboard"
     *ngIf="!isUpdateMode"
     routerLink="/admin-add"
     routerType="Add New Admin"
   />
   <app-dashboard-nav
+    dashboardLink="/dashboard"
     *ngIf="isUpdateMode"
     routerLink="/admin-edit/{{ adminId }}"
     [routerType]="editAccount"

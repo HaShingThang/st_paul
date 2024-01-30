@@ -1,0 +1,50 @@
+{
+  "kind": "collectionType",
+  "collectionName": "exams",
+  "info": {
+    "singularName": "exam",
+    "pluralName": "exams",
+    "displayName": "Exam",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "examDate": {
+      "type": "date",
+      "required": true
+    },
+    "period": {
+      "type": "string",
+      "regex": "^Period-(0[1-9]|1[0-9]|2[0-9]|30)$"
+    },
+    "examTime": {
+      "type": "time",
+      "required": true
+    },
+    "mark": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::mark.mark",
+      "inversedBy": "exam"
+    },
+    "academicYear": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::academic-year.academic-year",
+      "inversedBy": "exams"
+    },
+    "description": {
+      "type": "text",
+      "maxLength": 400
+    },
+    "grade": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::grade.grade",
+      "inversedBy": "exams"
+    }
+  }
+}

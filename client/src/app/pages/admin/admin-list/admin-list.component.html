@@ -1,5 +1,9 @@
 <div class="wrapper">
-  <app-dashboard-nav routerLink="/admin-list" routerType="Admin List" />
+  <app-dashboard-nav
+    dashboardLink="/dashboard"
+    routerLink="/admin-list"
+    routerType="Admin List"
+  />
   <div class="container">
     <div class="table-header">
       <div class="search-gp">
@@ -19,6 +23,7 @@
         </button>
       </div>
       <div class="tb-h-right-gp">
+        <p *ngIf="!authService.isSuperAdmin() && authService.isAdmin()"></p>
         <button
           mat-raised-button
           class="btn"
@@ -31,7 +36,7 @@
           class="btn"
           mat-raised-button
           routerLink="/admin-add"
-          [disabled]="!authService.isSuperAdmin()"
+          *ngIf="authService.isSuperAdmin()"
         >
           <mat-icon>add_circle_outline</mat-icon><span>New Admin</span>
         </button>
@@ -46,7 +51,7 @@
         </ng-container>
 
         <!-- Name Column -->
-        <ng-container matColumnDef="Name">
+        <ng-container matColumnDef="Name" sticky>
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
           <td mat-cell *matCellDef="let admin">{{ admin.username }}</td>
         </ng-container>
@@ -72,13 +77,12 @@
         </ng-container>
 
         <!-- Action Column -->
-        <ng-container matColumnDef="Action">
-          <th mat-header-cell *matHeaderCellDef>Action</th>
+        <ng-container matColumnDef="Action" *ngIf="authService.isSuperAdmin()">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
           <td class="action" mat-cell *matCellDef="let admin">
             <button
               class="btn btn-edit"
               [routerLink]="'/admin-edit/' + admin.id"
-              [disabled]="!authService.isSuperAdmin()"
             >
               <mat-icon>edit</mat-icon>
             </button>

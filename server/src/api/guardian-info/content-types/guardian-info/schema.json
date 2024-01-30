@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "guardian_infos",
+  "info": {
+    "singularName": "guardian-info",
+    "pluralName": "guardian-infos",
+    "displayName": "GuardianInfo",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "guardianName": {
+      "type": "string",
+      "required": true,
+      "maxLength": 60,
+      "minLength": 3
+    },
+    "phNo": {
+      "type": "string"
+    },
+    "students": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::student.student",
+      "mappedBy": "guardianInfo"
+    }
+  }
+}

@@ -17,7 +17,7 @@ export function validatePhoneNumber(
 ): ValidationErrors | null {
   const value = control.value;
   if (!value) {
-    return null;
+    return { required: true };
   } else if (!/^\d+$/.test(value)) {
     return { invalidNumber: true };
   } else if (!/^09/.test(value)) {
@@ -28,4 +28,44 @@ export function validatePhoneNumber(
     return { maxlength: true };
   }
   return null;
+}
+
+export const DATE_YEAR_FORMAT = {
+  parse: {
+    dateInput: 'YYYY',
+  },
+  display: {
+    dateInput: 'YYYY',
+    monthYearLabel: 'YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'YYYY',
+  },
+};
+
+export const DATE_FORMAT = {
+  parse: {
+    dateInput: 'DD/MM/YYYY',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
+
+export const TIME_FORMAT = {
+  parse: {
+    timeInput: 'hh:mm A',
+  },
+  display: {
+    timeInput: 'hh:mm A',
+    hourMinuteLabel: 'HH:mm',
+    hourMinuteA11yLabel: 'HH:mm',
+  },
+};
+
+export function getGradeNumber(grade: string): number | null {
+  const match = grade.match(/\d+$/);
+  return match ? parseInt(match[0], 10) : null;
 }

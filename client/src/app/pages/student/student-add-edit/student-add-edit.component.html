@@ -1,1 +1,336 @@
-<p>student-add-edit works!</p>
+<div class="wrapper">
+  <app-dashboard-nav
+    dashboardLink="/student-dashboard"
+    *ngIf="!isUpdateMode"
+    [routerLink]="'/student-add/' + getParam"
+    routerType="Add New Student"
+  />
+  <app-dashboard-nav
+    dashboardLink="/student-dashboard"
+    *ngIf="isUpdateMode"
+    routerLink=""
+    routerType="Edit Student"
+  />
+
+  <div class="container">
+    <form [formGroup]="studentForm" (ngSubmit)="studentSubmit()" novalidate>
+      <!-- Name -->
+      <mat-form-field class="input">
+        <mat-label>Student Name</mat-label>
+        <input
+          minlength="2"
+          maxlength="47"
+          type="text"
+          matInput
+          formControlName="name"
+        />
+        <mat-error
+          class="error"
+          *ngIf="
+            studentForm.get('name')?.invalid &&
+            (studentForm.get('name')?.dirty || studentForm.get('name')?.touched)
+          "
+        >
+          <span *ngIf="studentForm.get('name')?.errors?.['required']"
+            >Student name is required.</span
+          >
+          <span *ngIf="studentForm.get('name')?.errors?.['minlength']"
+            >Student name must be more than 2 chars.</span
+          >
+          <span *ngIf="studentForm.get('name')?.errors?.['maxlength']"
+            >Student name must be less than 46 chars.</span
+          >
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Grade -->
+      <mat-form-field class="input">
+        <mat-label>Select Grade</mat-label>
+        <mat-select formControlName="grade">
+          <mat-option *ngFor="let grade of grades" [value]="grade.id">{{
+            grade.grade
+          }}</mat-option>
+        </mat-select>
+        <mat-error
+          class="error"
+          *ngIf="
+            studentForm.get('grade')?.invalid &&
+            (studentForm.get('grade')?.dirty ||
+              studentForm.get('grade')?.touched)
+          "
+        >
+          <span *ngIf="studentForm.get('grade')?.errors?.['required']"
+            >Grade is required.</span
+          ></mat-error
+        >
+      </mat-form-field>
+
+      <!-- Student ID -->
+      <mat-form-field class="input">
+        <mat-label>Student ID</mat-label>
+        <input
+          type="text"
+          matInput
+          minlength="6"
+          maxlength="12"
+          formControlName="studentId"
+          placeholder="Eg: G00001 for KG, G10001 for Grade-1 etc..."
+        />
+        <mat-error
+          class="error"
+          *ngIf="
+            studentForm.get('studentId')?.invalid &&
+            (studentForm.get('studentId')?.dirty ||
+              studentForm.get('studentId')?.touched)
+          "
+        >
+          <span *ngIf="studentForm.get('studentId')?.errors?.['required']"
+            >StudentId is required.</span
+          >
+          <span *ngIf="studentForm.get('studentId')?.errors?.['maxlength']"
+            >StudentID must be less than 12 chars.</span
+          >
+          <span *ngIf="studentForm.get('studentId')?.errors?.['minlength']"
+            >StudentID must be more than 6 chars.</span
+          >
+          <span
+            *ngIf="studentForm.get('studentId')?.errors?.['invalidStudentId']"
+          >
+            Invalid StudentID for the selected grade.
+          </span>
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Gender -->
+      <mat-form-field class="input">
+        <mat-label>Select Gender</mat-label>
+        <mat-select formControlName="gender">
+          <mat-option value="Male">Male</mat-option>
+          <mat-option value="Female">Female</mat-option>
+          <mat-option value="Other">Other</mat-option>
+        </mat-select>
+        <mat-error
+          class="error"
+          *ngIf="
+            studentForm.get('gender')?.invalid &&
+            (studentForm.get('gender')?.dirty ||
+              studentForm.get('gender')?.touched)
+          "
+        >
+          <span *ngIf="studentForm.get('gender')?.errors?.['required']"
+            >Gender is required.</span
+          ></mat-error
+        >
+      </mat-form-field>
+
+      <!-- Academic year -->
+      <mat-form-field class="input">
+        <mat-label>Academic Year</mat-label>
+        <input matInput readonly [value]="getSelectedAcademicYear()" required />
+
+        <!-- Display error message if needed -->
+        <mat-error
+          class="error"
+          *ngIf="
+            studentForm.get('academicYear')?.invalid &&
+            (studentForm.get('academicYear')?.dirty ||
+              studentForm.get('academicYear')?.touched)
+          "
+        >
+          <span *ngIf="studentForm.get('academicYear')?.errors?.['required']">
+            Academic Year is required.
+          </span>
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Guardian's Name -->
+      <mat-form-field *ngIf="!isUpdateMode" class="input">
+        <mat-label>Guardian's Name</mat-label>
+        <input
+          minlength="2"
+          maxlength="47"
+          type="text"
+          matInput
+          formControlName="guardianName"
+        />
+        <mat-error
+          class="error"
+          *ngIf="
+            studentForm.get('guardianName')?.invalid &&
+            (studentForm.get('guardianName')?.dirty ||
+              studentForm.get('guardianName')?.touched)
+          "
+        >
+          <span *ngIf="studentForm.get('guardianName')?.errors?.['required']"
+            >Guardian's name is required.</span
+          >
+          <span *ngIf="studentForm.get('guardianName')?.errors?.['minlength']"
+            >Guardian's name must be more than 2 chars.</span
+          >
+          <span *ngIf="studentForm.get('guardianName')?.errors?.['maxlength']"
+            >Guardian's name must be less than 46 chars.</span
+          >
+        </mat-error>
+      </mat-form-field>
+      <!-- phNo Number -->
+      <mat-form-field *ngIf="!isUpdateMode" class="input">
+        <mat-label>Guardian's Phone Number</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="phNo"
+          placeholder="09*********"
+        />
+        <mat-error
+          class="error"
+          *ngIf="
+            studentForm.get('phNo')?.invalid &&
+            (studentForm.get('phNo')?.dirty || studentForm.get('phNo')?.touched)
+          "
+        >
+          <span *ngIf="studentForm.get('phNo')?.errors?.['required']"
+            >PhNo is required.</span
+          >
+          <span *ngIf="studentForm.get('phNo')?.errors?.['invalidNumber']">
+            PhNo should contain only digits.
+          </span>
+          <span *ngIf="studentForm.get('phNo')?.errors?.['invalidStart']">
+            PhNo should start with '09'.
+          </span>
+          <span *ngIf="studentForm.get('phNo')?.errors?.['minlength']">
+            PhNo should be at least 8 digits long.
+          </span>
+          <span *ngIf="studentForm.get('phNo')?.errors?.['maxlength']">
+            PhNo should be at most 11 digits long.
+          </span>
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Address -->
+      <mat-form-field class="input">
+        <mat-label>Address</mat-label>
+        <input
+          minlength="4"
+          maxlength="100"
+          type="text"
+          matInput
+          formControlName="address"
+        />
+        <mat-error
+          class="error"
+          *ngIf="
+            studentForm.get('address')?.invalid &&
+            (studentForm.get('address')?.dirty ||
+              studentForm.get('address')?.touched)
+          "
+        >
+          <span *ngIf="studentForm.get('address')?.errors?.['required']"
+            >Address is required.</span
+          >
+          <span *ngIf="studentForm.get('address')?.errors?.['minlength']"
+            >Address must be more than 4 chars.</span
+          >
+          <span *ngIf="studentForm.get('address')?.errors?.['maxlength']"
+            >Address must be less than 100 chars.</span
+          >
+        </mat-error>
+      </mat-form-field>
+
+      <div *ngIf="isUpdateMode" class="input">
+        <div class="input isChangePass">
+          <mat-checkbox
+            (change)="changeGuardianInfoToggle()"
+            class="check-box"
+            color="primary"
+            >Change GuardianInfo?</mat-checkbox
+          >
+        </div>
+        <!-- Guardian's Name -->
+        <mat-form-field class="input" *ngIf="isChangeGuardianInfo">
+          <mat-label>Guardian's Name</mat-label>
+          <input
+            minlength="2"
+            maxlength="47"
+            type="text"
+            matInput
+            formControlName="guardianName"
+          />
+          <mat-error
+            class="error"
+            *ngIf="
+              studentForm.get('guardianName')?.invalid &&
+              (studentForm.get('guardianName')?.dirty ||
+                studentForm.get('guardianName')?.touched)
+            "
+          >
+            <span *ngIf="studentForm.get('guardianName')?.errors?.['required']"
+              >Guardian's name is required.</span
+            >
+            <span *ngIf="studentForm.get('guardianName')?.errors?.['minlength']"
+              >Guardian's name must be more than 2 chars.</span
+            >
+            <span *ngIf="studentForm.get('guardianName')?.errors?.['maxlength']"
+              >Guardian's name must be less than 46 chars.</span
+            >
+          </mat-error>
+        </mat-form-field>
+        <!-- phNo Number -->
+        <mat-form-field class="input" *ngIf="isChangeGuardianInfo">
+          <mat-label>Guardian's Phone Number</mat-label>
+          <input
+            type="text"
+            matInput
+            maxlength="12"
+            formControlName="phNo"
+            placeholder="09*********"
+          />
+          <mat-error
+            class="error"
+            *ngIf="
+              studentForm.get('phNo')?.invalid &&
+              (studentForm.get('phNo')?.dirty ||
+                studentForm.get('phNo')?.touched)
+            "
+          >
+            <span *ngIf="studentForm.get('phNo')?.errors?.['required']"
+              >PhNo is required.</span
+            >
+            <span *ngIf="studentForm.get('phNo')?.errors?.['invalidNumber']">
+              PhNo should contain only digits.
+            </span>
+            <span *ngIf="studentForm.get('phNo')?.errors?.['invalidStart']">
+              PhNo should start with '09'.
+            </span>
+            <span *ngIf="studentForm.get('phNo')?.errors?.['minlength']">
+              PhNo should be at least 8 digits long.
+            </span>
+            <span *ngIf="studentForm.get('phNo')?.errors?.['maxlength']">
+              PhNo should be at most 11 digits long.
+            </span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="confirm-btn" *ngIf="showSubmit">
+        <p class="btn swal-cancel" (click)="formEnable()">Cancel</p>
+        <button type="submit" class="btn swal-confirm">Confirm</button>
+      </div>
+      <!-- Submit Button -->
+    </form>
+    <button
+      *ngIf="!showSubmit"
+      mat-raised-button
+      type="submit"
+      class="btn"
+      (click)="formDisable()"
+      [disabled]="!studentForm.valid"
+    >
+      <span *ngIf="!isUpdateMode">Add</span>
+      <span *ngIf="isUpdateMode">Update</span>
+    </button>
+    <app-back [routerLink]="'/students/' + getParam" />
+  </div>
+
+  <app-footer id="footer" />
+</div>
+<app-loading-screen *ngIf="studentService.isLoading || isLoading" />

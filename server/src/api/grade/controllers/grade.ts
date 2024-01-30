@@ -9,8 +9,7 @@ export default factories.createCoreController(
   ({ strapi }) => ({
     async find(ctx) {
       try {
-        const { grade } = ctx.request.query;
-        const params: { status?: string; [key: string]: any } = {};
+        const params: { grade?: string; [key: string]: any } = {};
         const grades = await strapi
           .service("api::grade.grade")
           .findGrades(params);
@@ -32,15 +31,28 @@ export default factories.createCoreController(
     //     };
     //   }
     // },
-    // async create(ctx) {
-    //   try {
-    //   } catch (error) {
-    //     ctx.response.status = 404;
-    //     ctx.response.body = {
-    //       message: error.message,
-    //     };
-    //   }
-    // },
+    async create(ctx) {
+      const { grade } = ctx.request.body;
+      try {
+        if (!grade) {
+          throw Error("Grade is required!");
+        }
+        const existingGrade = await strapi.query("api::grade.grade").findOne({
+          where: { grade },
+        });
+        if (existingGrade) {
+          throw new Error(`${grade} is already exist!`);
+        }
+        ctx.body = await strapi
+          .service("api::grade.grade")
+          .createGrade(ctx.request.body);
+      } catch (error) {
+        ctx.response.status = 404;
+        ctx.response.body = {
+          message: error.message,
+        };
+      }
+    },
     // async update(ctx) {
     //   try {
     //   } catch (error) {

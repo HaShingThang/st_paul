@@ -6,6 +6,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./dashboard-nav.component.scss'],
 })
 export class DashboardNavComponent {
+  @Input() dashboardLink!: string;
   @Input() routerLink!: string;
   @Input() routerType!: string;
 }

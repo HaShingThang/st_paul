@@ -1,0 +1,73 @@
+{
+  "kind": "collectionType",
+  "collectionName": "students",
+  "info": {
+    "singularName": "student",
+    "pluralName": "students",
+    "displayName": "Student",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "maxLength": 100,
+      "minLength": 2,
+      "required": true
+    },
+    "studentId": {
+      "type": "string",
+      "required": true,
+      "unique": false,
+      "maxLength": 22,
+      "minLength": 4
+    },
+    "mark": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::mark.mark",
+      "mappedBy": "student"
+    },
+    "address": {
+      "type": "text",
+      "maxLength": 200,
+      "minLength": 4
+    },
+    "guardianInfo": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::guardian-info.guardian-info",
+      "inversedBy": "students"
+    },
+    "attendance": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::attendance.attendance",
+      "mappedBy": "student"
+    },
+    "academicYear": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::academic-year.academic-year",
+      "inversedBy": "students"
+    },
+    "grade": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::grade.grade",
+      "inversedBy": "students"
+    },
+    "gender": {
+      "type": "enumeration",
+      "enum": [
+        "Male",
+        "Female",
+        "Other"
+      ],
+      "required": true
+    }
+  }
+}

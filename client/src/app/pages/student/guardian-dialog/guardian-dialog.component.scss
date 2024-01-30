@@ -1,0 +1,43 @@
+h3 {
+  text-align: center;
+  font-weight: 500 !important;
+}
+
+.dialog-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  table {
+    width: 90%;
+    text-align: center;
+    border-collapse: collapse;
+    th{
+      font-weight: 500 !important;
+    }
+    th, td {
+      padding: 4px 16px;
+      border: 1px solid var(--disable-color);
+      color: var(--font-dark);
+      a{
+        outline: none;
+        color: var(--font-dark);
+        cursor: pointer;
+      }
+    }
+  }
+}
+.dialog-ft{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .btn-delete{
+    border: 1px solid var(--error-color);
+    padding: 6px 14px;
+    outline: none;
+  }
+}
+
+
+
+
+
