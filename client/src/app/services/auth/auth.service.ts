@@ -52,6 +52,7 @@ export class AuthService {
     password: string,
     role: string
   ): Observable<Login> {
+    console.log('Login', email, password, role);
     return this.http.post<Login>(`${API_URL}/auth/local`, {
       email,
       password,

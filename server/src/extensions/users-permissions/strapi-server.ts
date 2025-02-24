@@ -3,9 +3,11 @@ import bcrypt from "bcrypt";
 export default (plugin: any) => {
   /// Login
   plugin.controllers.auth.callback = async (ctx) => {
+    console.log('ctx', ctx.request.body);
     const { email, password, role } = ctx.request.body;
     try {
       let user;
+      console.log('User', user);
       if (role == "Admin") {
         user = await strapi.query("plugin::users-permissions.user").findOne({
           where: {
